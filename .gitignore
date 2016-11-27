@@ -1,3 +1,5 @@
 
-.idea/
-db/**
+.idea
+db
+/server/node_modules/
+/*.log
