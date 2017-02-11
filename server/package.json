@@ -22,6 +22,8 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "path": "^0.12.7",
-    "xlsx": "^0.8.0"
+    "xlsx": "^0.8.0",
+    "errorhandler": "latest",
+    "mongoose": "latest"
   }
 }

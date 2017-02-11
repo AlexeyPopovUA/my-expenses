@@ -8,7 +8,8 @@ const fs = require("fs");
 router.get('/', (req, res, next) => {
     //res.render('index', {title: 'Payments'});
     fs.readFile("./web-app/index.html", (error, file) => {
-        res.send(file.toString());
+        //res.send(file.toString());
+        res.send("test");
     });
 });
 

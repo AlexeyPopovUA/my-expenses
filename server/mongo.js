@@ -1,21 +1,26 @@
 "use strict";
 
-const MongoClient = require('mongodb').MongoClient,
+const //MongoClient = require('mongodb').MongoClient,
     assert = require('assert');
+const config = require("./config/local_settings");
+const mongoose = require('mongoose');
 
 let db_connection = null;
 
 // Connection URL
-const url = 'mongodb://localhost:27017/my-expenses';
+const url = config.database;
 
 module.exports = {
     start: () => {
         return new Promise((resolve) => {
             // Use connect method to connect to the Server
-            MongoClient.connect(url, (err, db) => {
-                db_connection = db;
-                assert.equal(null, err);
-                console.log("Connected correctly to server");
+            mongoose.connect(url, err => {
+                db_connection = mongoose.connection;
+
+                db_connection.on('error', console.error.bind(console, 'connection error:'));
+                db_connection.once('open', () => {
+                    console.log("we are successfully connected.")
+                });
 
                 resolve(db_connection);
             });
@@ -23,8 +28,14 @@ module.exports = {
     },
 
     stop: () => {
-        db_connection.close();
-        db_connection = null;
+        if (db_connection) {
+            db_connection.close(() => {
+                db_connection = null;
+
+                console.log("Connection was closed");
+            });
+
+        }
     },
 
     getDbConnection: () => db_connection

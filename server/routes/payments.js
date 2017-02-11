@@ -3,9 +3,20 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require("./../mongo");
+const mongoose = require('mongoose');
 const ObjectId = require('mongodb').ObjectId;
 
+const PaymentSchema = require("./../schemas/payment");
+const PaymentModel = mongoose.model('Payment', PaymentSchema);
+
 const COLLECTION_NAME = "payments";
+
+//temporary
+router.get('/all', (req, res, next) => {
+    PaymentModel.getAll((err, result) => {
+        res.json(result);
+    });
+});
 
 router.get('/get', (req, res) => {
     const db = mongo.getDbConnection();
@@ -46,10 +57,9 @@ router.get('/get', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-
-    collection.insertOne(req.body, () => res.send({}));
+    PaymentModel.addOne(req, (err, result) => {
+        res.json(result);
+    });
 });
 
 router.post('/addmany', (req, res) => {
