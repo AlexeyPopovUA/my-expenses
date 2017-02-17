@@ -5,6 +5,8 @@ const //MongoClient = require('mongodb').MongoClient,
 const config = require("./config/local_settings");
 const mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+
 let db_connection = null;
 
 // Connection URL
