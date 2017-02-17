@@ -19,20 +19,43 @@ const PaymentSchema = Schema({
     "value": Number,
 });
 
-PaymentSchema.statics.getAll = function(done) {
-    this.find({}, (err, items) => {
-        const arr = [];
+PaymentSchema.statics.findAll = function(request, done) {
+    const queryParameters = request.query;
+    const match = {};
+    const DEFAULT_LIMIT = 50;
 
-        if (err) {
-            return done(err, {
-                "error": err
-            });
+    if (typeof queryParameters.filterBy !== "undefined") {
+
+        match[queryParameters.filterBy] = queryParameters.value;
+    } else if (typeof queryParameters._id !== "undefined") {
+        match._id = ObjectId(queryParameters._id);
+    }
+
+    let dbQuery = this.find(match);
+
+    if (queryParameters.sort && queryParameters.sort.length > 0) {
+        try {
+            const parsedSort = JSON.parse(queryParameters.sort);
+            const sortersList = [];
+
+            for (const sorter of parsedSort) {
+                sortersList.push(sorter.direction === "ASC" ? sorter.property : `-${sorter.property}`);
+            }
+
+            dbQuery = dbQuery
+                .sort(sortersList.join(" "));
+        } catch (error) {
+            //igore error
+            console.error(error);
         }
+    }
 
-        items.forEach(item => arr.push(item));
-
-        return done(null, arr);
-    });
+    dbQuery
+        .limit(queryParameters.limit ? parseInt(queryParameters.limit) : DEFAULT_LIMIT)
+        .exec()
+        .then(result => {
+            done(null, result);
+        });
 };
 
 PaymentSchema.statics.addOne = function(request, done) {

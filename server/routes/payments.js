@@ -11,49 +11,10 @@ const PaymentModel = mongoose.model('Payment', PaymentSchema);
 
 const COLLECTION_NAME = "payments";
 
-//temporary
-router.get('/all', (req, res, next) => {
-    PaymentModel.getAll((err, result) => {
+router.get('/get', (req, res) => {
+    PaymentModel.findAll(req, (err, result) => {
         res.json(result);
     });
-});
-
-router.get('/get', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-    const query = req.query;
-    const match = {};
-    const sort = {};
-
-    if (query.filterBy !== undefined) {
-        match[query.filterBy] = query.value;
-    } else if (query._id !== undefined) {
-        match._id = ObjectId(query._id);
-    }
-
-    const aggregation = [{
-        $match: match
-    }];
-
-    if (query.sort && query.sort.length > 0) {
-        const parsedSort = JSON.parse(query.sort);
-
-        for (const sorter of parsedSort) {
-            sort[sorter.property] = sorter.direction === "ASC" ? 1 : -1;
-        }
-
-        aggregation.push({
-            $sort: sort
-        });
-    }
-
-    collection
-        .aggregate(aggregation)
-        .toArray((err, docs) => {
-            _convertAllToDateByField(docs, "date");
-
-            res.send(docs);
-        });
 });
 
 router.post('/add', (req, res) => {
