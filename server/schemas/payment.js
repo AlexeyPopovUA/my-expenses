@@ -1,7 +1,8 @@
 "use strict";
 
 const mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    _ = require("lodash");
 
 const PaymentSchema = Schema({
     "name": {
@@ -18,6 +19,13 @@ const PaymentSchema = Schema({
     },
     "value": Number,
 });
+
+const emptyPaymentConfig = {
+    "name": "",
+    "category": "",
+    "date": null,
+    "value": 0
+};
 
 PaymentSchema.statics.filter = function(request, done) {
     const queryParameters = request.query;
@@ -53,32 +61,34 @@ PaymentSchema.statics.filter = function(request, done) {
     dbQuery
         .limit(queryParameters.limit ? parseInt(queryParameters.limit) : DEFAULT_LIMIT)
         .exec()
-        .then(result => {
-            done(null, result);
-        });
+        .then(result => done(null, result));
 };
 
 PaymentSchema.statics.addOne = function(request, done) {
-    const Payment = this,
-        body = request.body;
-    //sets all the defaults
-    let data = {
-        "name": "",
-        "category": "",
-        "date": null,
-        "value": 0
-    };
-
-    data = Object.assign(data, body);
-
-    data["date"] = new Date(body.date);
-
-    Payment.create(data, (error, payment) => {
-        if (error) {
-            return done(error, { error });
-        }
-        return done(null, payment);
-    });
+    addOne.call(this, request.body)
+        .then(payment => done(null, payment))
+        .catch(error => done(error, {error}));
 };
+
+PaymentSchema.statics.addMany = function(request, done) {
+    const promises = _.map(request.body.data, item => addOne.call(this, item));
+
+    Promise.all(promises)
+        .then(payments => done(null, payments))
+        .catch(error => done(error, {error}));
+};
+
+function addOne(body) {
+    const Payment = this;
+
+    return new Promise((resolve, reject) => {
+        //sets all the defaults
+        const data = Object.assign(_.clone(emptyPaymentConfig), body);
+
+        data["date"] = new Date(body.date);
+
+        Payment.create(data, (error, payment) => error ? reject(error) : resolve(payment));
+    });
+}
 
 module.exports = PaymentSchema;

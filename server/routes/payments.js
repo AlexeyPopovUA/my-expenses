@@ -24,16 +24,15 @@ router.post('/add', (req, res) => {
 });
 
 router.post('/addmany', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-
     if (req.body.data) {
         for (const item of req.body.data) {
             delete item._id;
         }
     }
 
-    collection.insertMany(req.body.data, () => res.send({}));
+    PaymentModel.addMany(req, (err, result) => {
+        res.json(result);
+    });
 });
 
 /*router.post('/import', (req, res) => {

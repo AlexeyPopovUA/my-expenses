@@ -13,17 +13,18 @@
     "cors": "^2.8.1",
     "csurf": "^1.9.0",
     "debug": "~2.2.0",
+    "errorhandler": "latest",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.1.9",
+    "lodash": "^4.17.4",
     "moment": "^2.14.1",
     "mongodb": "^2.2.11",
+    "mongoose": "latest",
     "morgan": "^1.7.0",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "path": "^0.12.7",
-    "xlsx": "^0.8.0",
-    "errorhandler": "latest",
-    "mongoose": "latest"
+    "xlsx": "^0.8.0"
   }
 }
