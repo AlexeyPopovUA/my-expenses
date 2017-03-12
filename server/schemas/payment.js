@@ -19,7 +19,7 @@ const PaymentSchema = Schema({
     "value": Number,
 });
 
-PaymentSchema.statics.findAll = function(request, done) {
+PaymentSchema.statics.filter = function(request, done) {
     const queryParameters = request.query;
     const match = {};
     const DEFAULT_LIMIT = 50;
@@ -73,11 +73,9 @@ PaymentSchema.statics.addOne = function(request, done) {
 
     data["date"] = new Date(body.date);
 
-    Payment.create(data, (err, payment) => {
-        if (err) {
-            return done(err, {
-                "error": err
-            });
+    Payment.create(data, (error, payment) => {
+        if (error) {
+            return done(error, { error });
         }
         return done(null, payment);
     });

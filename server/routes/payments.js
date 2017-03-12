@@ -12,7 +12,7 @@ const PaymentModel = mongoose.model('Payment', PaymentSchema);
 const COLLECTION_NAME = "payments";
 
 router.get('/get', (req, res) => {
-    PaymentModel.findAll(req, (err, result) => {
+    PaymentModel.filter(req, (err, result) => {
         res.json(result);
     });
 });
@@ -180,11 +180,5 @@ router.get('/report/groups', (req, res) => {
         .aggregate(aggregation)
         .toArray((err, docs) => res.send(docs));
 });
-
-function _convertAllToDateByField(list, fieldName) {
-    for (const item of list) {
-        item[fieldName] = new Date(item[fieldName]);
-    }
-}
 
 module.exports = router;
