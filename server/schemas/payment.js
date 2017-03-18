@@ -3,7 +3,7 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     _ = require("lodash"),
-    ObjectId = require('mongodb').ObjectId;
+    ObjectId = mongoose.Types.ObjectId;
 
 const PaymentSchema = Schema({
     "name": {
@@ -91,6 +91,56 @@ PaymentSchema.statics.deleteOnePayment = function(request) {
     };
 
     return this.remove(filter);
+};
+
+PaymentSchema.statics.getGroupedReport = function() {
+    return this
+        .aggregate()
+        .group({
+            _id: {
+                "category": "$category",
+                "date": "$date",
+                "value": "$value",
+                "itemCount": {
+                    "$sum": 1
+                }
+            }
+        })
+        .project({
+            "month": {
+                $month: "$_id.date"
+            },
+            "year": {
+                $year: "$_id.date"
+            }
+        })
+        .group({
+            "_id": {
+                "year": "$year",
+                "month": "$month",
+                "category": "$_id.category"
+            },
+            "count": {
+                $sum: "$_id.itemCount"
+            },
+            "sum": {
+                $sum: "$_id.value"
+            }
+        })
+        .sort({
+            "_id.year": -1,
+            "_id.month": -1
+        })
+        .project({
+            "month": "$_id.month",
+            "year": "$_id.year",
+            "category": "$_id.category",
+            "count": "$count",
+            "sum": "$sum",
+            "_id": false
+        })
+        .exec()
+
 };
 
 function addOne(body) {

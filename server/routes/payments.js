@@ -2,13 +2,10 @@
 
 const express = require('express');
 const router = express.Router();
-const mongo = require("./../mongo");
 const mongoose = require('mongoose');
 
 const PaymentSchema = require("./../schemas/payment");
 const PaymentModel = mongoose.model('Payment', PaymentSchema);
-
-const COLLECTION_NAME = "payments";
 
 router.get('/get', (req, res) => {
     PaymentModel.filter(req, (err, result) => {
@@ -59,73 +56,10 @@ router.delete('/:id', (req, res) => {
 });
 
 router.get('/report/groups', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-
-    const aggregation = [
-        {
-            $group: {
-                _id: {
-                    "category": "$category",
-                    "date": {
-                        $add: [
-                            new Date(0),
-                            "$date"
-                        ]
-                    },
-                    "value": "$value",
-                    "itemCount": {
-                        "$sum": 1
-                    }
-                }
-            }
-        },
-        {
-            $project: {
-                "month": {
-                    $month: "$_id.date"
-                },
-                "year": {
-                    $year: "$_id.date"
-                }
-            }
-        },
-        {
-            $group: {
-                "_id": {
-                    "year": "$year",
-                    "month": "$month",
-                    "category": "$_id.category"
-                },
-                "count": {
-                    $sum: "$_id.itemCount"
-                },
-                "sum": {
-                    $sum: "$_id.value"
-                }
-            }
-        },
-        {
-            $sort: {
-                "_id.year": -1,
-                "_id.month": -1
-            }
-        },
-        {
-            $project: {
-                "month": "$_id.month",
-                "year": "$_id.year",
-                "category": "$_id.category",
-                "count": "$count",
-                "sum": "$sum",
-                "_id": false
-            }
-        }
-    ];
-
-    collection
-        .aggregate(aggregation)
-        .toArray((err, docs) => res.send(docs));
+    PaymentModel
+        .getGroupedReport()
+        .then(docs => res.send(docs))
+        .catch(error => res.send({error}));
 });
 
 module.exports = router;
