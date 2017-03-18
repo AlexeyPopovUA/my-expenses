@@ -2,7 +2,8 @@
 
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    _ = require("lodash");
+    _ = require("lodash"),
+    ObjectId = require('mongodb').ObjectId;
 
 const PaymentSchema = Schema({
     "name": {
@@ -70,12 +71,18 @@ PaymentSchema.statics.addOne = function(request, done) {
         .catch(error => done(error, {error}));
 };
 
-PaymentSchema.statics.addMany = function(request, done) {
+PaymentSchema.statics.addMany = function(request) {
     const promises = _.map(request.body.data, item => addOne.call(this, item));
 
-    Promise.all(promises)
-        .then(payments => done(null, payments))
-        .catch(error => done(error, {error}));
+    return Promise.all(promises);
+};
+
+PaymentSchema.statics.updateOne = function(request) {
+    const filter = {
+        _id: ObjectId(request.body._id)
+    };
+
+    return this.update(filter, _.omit(request.body, "_id"));
 };
 
 function addOne(body) {

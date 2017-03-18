@@ -30,9 +30,10 @@ router.post('/addmany', (req, res) => {
         }
     }
 
-    PaymentModel.addMany(req, (err, result) => {
-        res.json(result);
-    });
+    PaymentModel
+        .addMany(req)
+        .then(payments => res.json(payments))
+        .catch(error => res.json({error}));
 });
 
 /*router.post('/import', (req, res) => {
@@ -45,28 +46,10 @@ router.post('/addmany', (req, res) => {
  });*/
 
 router.put('/:id', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-
-    const filter = {
-        _id: ObjectId(req.body._id)
-    };
-
-    const update = {};
-
-    for (const key in req.body) {
-        if (req.body.hasOwnProperty(key) && key !== "_id") {
-            update[key] = req.body[key];
-        }
-    }
-
-    collection.updateOne(
-        filter,
-        {
-            $set: update
-        },
-        () => res.send({})
-    );
+    PaymentModel
+        .updateOne(req)
+        .then(() => res.json({}))
+        .catch(error => res.json({error}));
 });
 
 router.delete('/:id', (req, res) => {
