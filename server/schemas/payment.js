@@ -77,12 +77,20 @@ PaymentSchema.statics.addMany = function(request) {
     return Promise.all(promises);
 };
 
-PaymentSchema.statics.updateOne = function(request) {
+PaymentSchema.statics.updateOnePayment = function(request) {
     const filter = {
         _id: ObjectId(request.body._id)
     };
 
     return this.update(filter, _.omit(request.body, "_id"));
+};
+
+PaymentSchema.statics.deleteOnePayment = function(request) {
+    const filter = {
+        _id: ObjectId(request.body._id)
+    };
+
+    return this.remove(filter);
 };
 
 function addOne(body) {

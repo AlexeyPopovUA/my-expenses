@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const mongo = require("./../mongo");
 const mongoose = require('mongoose');
-const ObjectId = require('mongodb').ObjectId;
 
 const PaymentSchema = require("./../schemas/payment");
 const PaymentModel = mongoose.model('Payment', PaymentSchema);
@@ -47,50 +46,16 @@ router.post('/addmany', (req, res) => {
 
 router.put('/:id', (req, res) => {
     PaymentModel
-        .updateOne(req)
+        .updateOnePayment(req)
         .then(() => res.json({}))
         .catch(error => res.json({error}));
 });
 
 router.delete('/:id', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-
-    collection.deleteOne({
-        "_id": ObjectId(req.body._id)
-    }, () => res.send({}));
-});
-
-router.get('/report', (req, res) => {
-    const db = mongo.getDbConnection();
-    const collection = db.collection(COLLECTION_NAME);
-    const match = {
-        /*"date": {
-            $gt: new Date(2015).getTime(),
-            $lt: new Date(2017).getTime()
-        }*/
-    };
-
-    const aggregation = [
-        {
-            $match: match
-        },
-        {
-            $group: {
-                _id: "$category",
-                total: {
-                    $sum: "$value"
-                }
-            }
-        }
-    ];
-
-    collection
-        .aggregate(aggregation)
-        .toArray((err, docs) => {
-
-            res.send(docs);
-        });
+    PaymentModel
+        .deleteOnePayment(req)
+        .then(() => res.send({}))
+        .catch(error => res.json({error}));
 });
 
 router.get('/report/groups', (req, res) => {
