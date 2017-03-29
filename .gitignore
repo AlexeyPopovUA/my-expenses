@@ -3,3 +3,9 @@
 db
 /server/node_modules/
 /*.log
+web-app/ext
+web-app/build
+/node_modules
+/web-app/classic.jsonp
+/web-app/bootstrap.js
+/web-app/classic.json
