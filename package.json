@@ -1,0 +1,18 @@
+{
+  "name": "expences-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-ui": "node ./node_modules/http-server/bin/http-server ./web-app --cors -o",
+    "start-ss": "node ./server/bin/www",
+    "start-db": "mongod -dbpath ./db/db",
+    "start": "npm run start-ss & npm run start-ui"
+  },
+  "author": "Oleksii Popov",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
+}
