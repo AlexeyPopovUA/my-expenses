@@ -9,3 +9,4 @@ web-app/build
 /web-app/classic.jsonp
 /web-app/bootstrap.js
 /web-app/classic.json
+/web-app/.sencha/
