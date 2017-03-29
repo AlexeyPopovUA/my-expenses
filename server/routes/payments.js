@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const PaymentSchema = require("./../schemas/payment");
 const PaymentModel = mongoose.model('Payment', PaymentSchema);
+//const _ = require("lodash");
 
 router.get('/get', (req, res) => {
     PaymentModel.filter(req, (err, result) => {
@@ -32,14 +33,30 @@ router.post('/addmany', (req, res) => {
         .catch(error => res.json({error}));
 });
 
-/*router.post('/import', (req, res) => {
- const db = mongo.getDbConnection();
- const documents = db.collection(COLLECTION_NAME);
+/*router.post('/importcollection', (req, res) => {
+    const collection = require("./../parser/payments.json");
 
- documents.insertMany(req.body, () => {
- res.send({});
- });
- });*/
+    const request = _.chain(collection)
+        .map(item => {
+            delete item._id;
+
+            return item;
+        })
+        .thru(value => {
+            return {
+                body: {
+                    data: value
+                }
+            }
+        })
+        .value();
+
+
+    PaymentModel
+        .addMany(request)
+        .then(payments => res.json(payments))
+        .catch(error => res.json({error}));
+});*/
 
 router.put('/:id', (req, res) => {
     PaymentModel

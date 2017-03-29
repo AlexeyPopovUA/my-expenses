@@ -10,14 +10,14 @@ const cors = require("cors");
 require("./mongo").start();
 
 const routes = require('./routes/index');
-const users = require('./routes/users');
+//const users = require('./routes/users');
 const payments = require('./routes/payments');
 //const reports = require('./routes/reports');
 
 const compression = require('compression'),
-    errorHandler = require('errorhandler'),
-    csrf = require('csurf'),
-    passport = require('passport');
+    errorHandler = require('errorhandler');
+    //csrf = require('csurf'),
+    /*passport = require('passport');*/
 
 const app = express();
 
@@ -37,10 +37,10 @@ const parseForm = bodyParser.urlencoded({
     extended: false
 });*/
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 app.use('/', routes);
-app.use('/users', users);
+//app.use('/users', users);
 app.use('/payments', payments);
 //app.use('/reports', reports);
 
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use((err, req, res, next) => {
+    app.use((err, req, res) => {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
@@ -67,7 +67,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,

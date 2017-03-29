@@ -1,7 +1,6 @@
 "use strict";
 
-const //MongoClient = require('mongodb').MongoClient,
-    assert = require('assert');
+const assert = require('assert');
 const config = require("./config/local_settings");
 const mongoose = require('mongoose');
 
