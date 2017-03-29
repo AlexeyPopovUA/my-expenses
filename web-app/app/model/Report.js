@@ -6,7 +6,7 @@ Ext.define('Expenses.model.Report', {
         {name: 'year', type: "int"},
         {name: 'month', type: "int"},
         {name: 'sum', type: 'number'},
-        {name: 'count', type: 'int'},
+        {name: 'count', type: 'int'}
     ],
 
     proxy: {

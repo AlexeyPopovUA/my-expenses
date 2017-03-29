@@ -10,7 +10,7 @@ Ext.define('Expenses.model.Payment', {
         {name: 'date', type: "date", serialize: function(value) {
             return value.getTime();
         }},
-        {name: 'value', type: 'number'},
+        {name: 'value', type: 'number'}
     ],
 
     proxy: {

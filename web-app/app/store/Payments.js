@@ -12,7 +12,7 @@ Ext.define('Expenses.store.Payments', {
         reader: {
             type: 'json'
         },
-        url: 'http://localhost:3000/payments/get',
+        url: 'http://localhost:3000/payments/get'
         /*extraParams: {
             filterBy: "category",
             value: "Food"
