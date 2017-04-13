@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 require("./mongo").start();
 
@@ -16,26 +17,17 @@ const payments = require('./routes/payments');
 
 const compression = require('compression'),
     errorHandler = require('errorhandler');
-    //csrf = require('csurf'),
-    /*passport = require('passport');*/
 
 const app = express();
 
 app.use(cors());
+app.use(fileUpload());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(compression());
 app.use(errorHandler()); // error handler
-
-/*//additional security layer for posting of forms
-const csrfProtection = csrf({
-    cookie: true
-});
-const parseForm = bodyParser.urlencoded({
-    extended: false
-});*/
 
 //app.use(passport.initialize());
 

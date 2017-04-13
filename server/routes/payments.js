@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const PaymentSchema = require("./../schemas/payment");
 const PaymentModel = mongoose.model('Payment', PaymentSchema);
+const xlsx = require("xlsx");
 //const _ = require("lodash");
 
 router.get('/get', (req, res) => {
@@ -57,6 +58,13 @@ router.post('/addmany', (req, res) => {
         .then(payments => res.json(payments))
         .catch(error => res.json({error}));
 });*/
+
+router.post('/importxls', (req, res) => {
+    const xls = xlsx.read(req.files.myfile.data);
+    const collection = xlsx.utils.sheet_to_json(xls.Sheets.Sheet0);
+
+    res.json(collection);
+});
 
 router.put('/:id', (req, res) => {
     PaymentModel
