@@ -72,6 +72,7 @@ PaymentSchema.statics.addOne = function(request, done) {
 };
 
 PaymentSchema.statics.addMany = function(request) {
+    //use bulkWrite instead
     const promises = _.map(request.body.data, item => addOne.call(this, item));
 
     return Promise.all(promises);

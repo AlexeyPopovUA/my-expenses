@@ -6,8 +6,9 @@ const mongoose = require('mongoose');
 
 const PaymentSchema = require("./../schemas/payment");
 const PaymentModel = mongoose.model('Payment', PaymentSchema);
-const xlsx = require("xlsx");
-//const _ = require("lodash");
+const parser = require("./../parser/parser");
+const _ = require("lodash");
+const moment = require("moment");
 
 router.get('/get', (req, res) => {
     PaymentModel.filter(req, (err, result) => {
@@ -60,10 +61,22 @@ router.post('/addmany', (req, res) => {
 });*/
 
 router.post('/importxls', (req, res) => {
-    const xls = xlsx.read(req.files.myfile.data);
-    const collection = xlsx.utils.sheet_to_json(xls.Sheets.Sheet0);
+    const collection = parser.readAmroReport(req.files.myfile.data);
 
-    res.json(collection);
+    const mappedCollection = _.map(collection, item => {
+            const payment = {
+                name: item.description,
+                category: "",
+                date: moment(item.valuedate, "YYYYMMDD").utc().format(),
+                value: Math.abs(item.amount),
+            };
+
+            parser.prePopulateCategoryForPayment(payment, item.description);
+
+            return payment;
+        });
+
+    res.json(mappedCollection);
 });
 
 router.put('/:id', (req, res) => {

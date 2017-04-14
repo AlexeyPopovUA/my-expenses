@@ -1,51 +1,63 @@
-"use strict";
-
 const xlsx = require("xlsx");
-const moment = require("moment");
 
-const file = xlsx.readFile("./data/import/Payments.xlsx");
-const cells = file.Sheets[file.SheetNames[0]];
+//todo Come up with a better pattern
+const foodRegExp = /.*(ALBERT HEIJN|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek).*/gi;
+const householdRegExp = /.*(Kruidvat|HEMA|Ikea).*/gi;
+const closesRegExp = /.*(H&M|Sting).*/gi;
+const healthRegExp = /.*(Sportcity).*/gi;
+const toiletRegExp = /.*(sanifair).*/gi;
+const travellingRegExp = /.*(NS GROEP|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling).*/gi;
+const specialRegExp = /.*(Gemeente|postnl|Post en Office|Tax Return|Publiekshal).*/gi;
+const mobileAndInternetRegExp = /.*(KPN|Vodafone).*/gi;
+const entertainmentRegExp = /.*(Spotify|museum|Keukenhof).*/gi;
+const aliexpressRegExp = /.*(Alipay).*/gi;
+const amazonRegExp = /.*(amazon).*/gi;
+const ebayRegExp = /.*(ebay).*/gi;
+const insuranceRegExp = /.*(Zilveren Kruis).*/gi;
+const rentRegExp = /.*(B. van den Bergh).*/gi;
 
-const nameCell = "B";
-const categoryCell = "C";
-const dateCell = "D";
-const valueCell = "E";
-const result = [];
-
-let i = 3;
-
-while (cells[`${nameCell}${i}`]) {
-    const name = `${nameCell}${i}`;
-    const category = `${categoryCell}${i}`;
-    const date = `${dateCell}${i}`;
-    const value = `${valueCell}${i}`;
-
-    const row = {
-        name: cells[name].h,
-        category: cells[category].h,
-        date: moment(cells[date].w, "DD/MM/YY").valueOf(),
-        value: cells[value].v
-    };
-
-    result.push(row);
-
-    i++;
+//todo Replace hardcoded categories with constants
+function prePopulateCategoryForPayment(payment, description) {
+    if (foodRegExp.test(description)) {
+        payment.category = "Food";
+    } else if (householdRegExp.test(description)) {
+        payment.category = "Household";
+    } else if (closesRegExp.test(description)) {
+        payment.category = "Closes";
+    } else if (healthRegExp.test(description)) {
+        payment.category = "Health";
+    } else if (toiletRegExp.test(description)) {
+        payment.category = "Toilet";
+    } else if (travellingRegExp.test(description)) {
+        payment.category = "Travelling";
+    } else if (specialRegExp.test(description)) {
+        payment.category = "Special";
+    } else if (mobileAndInternetRegExp.test(description)) {
+        payment.category = "Mobile and internet";
+    } else if (entertainmentRegExp.test(description)) {
+        payment.category = "Entertainment";
+    } else if (aliexpressRegExp.test(description)) {
+        payment.category = "Ali Express";
+    } else if (amazonRegExp.test(description)) {
+        payment.category = "Amazon";
+    } else if (ebayRegExp.test(description)) {
+        payment.category = "Ebay";
+    } else if (insuranceRegExp.test(description)) {
+        payment.category = "Insurance";
+    } else if (rentRegExp.test(description)) {
+        payment.category = "Rent";
+    } else {
+        payment.category = "Other";
+    }
 }
 
-console.log(result);
+function readAmroReport(file) {
+    const xls = xlsx.read(file);
 
-/*
-const mongo = require("./../mongo");
+    return xlsx.utils.sheet_to_json(xls.Sheets.Sheet0);
+}
 
-mongo.start()
-    .then((db) => {
-        return new Promise((resolve) => {
-            const COLLECTION_NAME = "payments";
-            const documents = db.collection(COLLECTION_NAME);
-
-            documents.insertMany(result, () => {
-                resolve();
-            });
-        });
-    })
-    .then(() => mongo.stop());*/
+module.exports = {
+    readAmroReport,
+    prePopulateCategoryForPayment
+};
