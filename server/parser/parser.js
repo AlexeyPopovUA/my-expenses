@@ -1,4 +1,5 @@
 const xlsx = require("xlsx");
+const PaymentSchema = require("./../schemas/payment");
 
 //todo Come up with a better pattern
 const foodRegExp = /.*(ALBERT HEIJN|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek).*/gi;
@@ -19,35 +20,35 @@ const rentRegExp = /.*(B. van den Bergh).*/gi;
 //todo Replace hardcoded categories with constants
 function prePopulateCategoryForPayment(payment, description) {
     if (foodRegExp.test(description)) {
-        payment.category = "Food";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.FOOD;
     } else if (householdRegExp.test(description)) {
-        payment.category = "Household";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.HOUSEHOLD;
     } else if (closesRegExp.test(description)) {
-        payment.category = "Closes";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.CLOSES;
     } else if (healthRegExp.test(description)) {
-        payment.category = "Health";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.HEALTH;
     } else if (toiletRegExp.test(description)) {
-        payment.category = "Toilet";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.TOILET;
     } else if (travellingRegExp.test(description)) {
-        payment.category = "Travelling";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.TRAVELLING;
     } else if (specialRegExp.test(description)) {
-        payment.category = "Special";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.SPECIAL;
     } else if (mobileAndInternetRegExp.test(description)) {
-        payment.category = "Mobile and internet";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.MOBILEANDINTERNET;
     } else if (entertainmentRegExp.test(description)) {
-        payment.category = "Entertainment";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.ENTERTAINMENT;
     } else if (aliexpressRegExp.test(description)) {
-        payment.category = "Ali Express";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.ALIEXPRESS;
     } else if (amazonRegExp.test(description)) {
-        payment.category = "Amazon";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.AMAZON;
     } else if (ebayRegExp.test(description)) {
-        payment.category = "Ebay";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.EBAY;
     } else if (insuranceRegExp.test(description)) {
-        payment.category = "Insurance";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.INSURANCE;
     } else if (rentRegExp.test(description)) {
-        payment.category = "Rent";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.RENT;
     } else {
-        payment.category = "Other";
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.OTHER;
     }
 }
 

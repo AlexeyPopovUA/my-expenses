@@ -21,6 +21,24 @@ const PaymentSchema = Schema({
     "value": Number,
 });
 
+PaymentSchema.PAYMENT_CATEGORIES = {
+    FOOD: "Food",
+    HOUSEHOLD: "Household",
+    CLOSES: "Closes",
+    HEALTH: "Health",
+    TOILET: "Toilet",
+    TRAVELLING: "Travelling",
+    SPECIAL: "Special",
+    MOBILEANDINTERNET: "Mobile and internet",
+    ENTERTAINMENT: "Entertainment",
+    ALIEXPRESS: "Ali Express",
+    AMAZON: "Amazon",
+    EBAY: "Ebay",
+    INSURANCE: "Insurance",
+    RENT: "Rent",
+    OTHER: "Other"
+};
+
 const emptyPaymentConfig = {
     "name": "",
     "category": "",
