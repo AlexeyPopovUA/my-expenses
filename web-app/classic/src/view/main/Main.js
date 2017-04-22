@@ -64,7 +64,7 @@ Ext.define('Expenses.view.main.Main', {
     },
 
     defaults: {
-        bodyPadding: 20,
+        bodyPadding: "0 20 20 10",
         tabConfig: {
             plugins: 'responsive',
             responsiveConfig: {
@@ -110,13 +110,13 @@ Ext.define('Expenses.view.main.Main', {
         },
         {
             xtype: "reportpage"
-        },
+        }/*,
         {
             title: 'Settings',
             iconCls: 'fa-cog',
             bind: {
                 html: '{loremIpsum}'
             }
-        }
+        }*/
     ]
 });

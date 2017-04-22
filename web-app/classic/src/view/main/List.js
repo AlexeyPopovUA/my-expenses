@@ -25,6 +25,7 @@ Ext.define('Expenses.view.main.List', {
         {
             text: 'Name',
             dataIndex: 'name',
+            flex: 10,
             editor: {
                 allowBlank: false
             }
@@ -44,7 +45,7 @@ Ext.define('Expenses.view.main.List', {
             xtype: "datecolumn",
             text: 'Date',
             dataIndex: 'date',
-            flex: 1,
+            flex: 1.5,
             editor: {
                 xtype: 'datefield',
                 allowBlank: false
@@ -66,8 +67,10 @@ Ext.define('Expenses.view.main.List', {
             summaryType: 'sum'
         },
         {
-            xtype:'actioncolumn',
-            width:50,
+            xtype: 'actioncolumn',
+            width: 50,
+            sortable: false,
+            hideable: false,
             items: [{
                 icon: 'build/development/Expenses/classic/resources/images/shared/icon-error.png',
                 tooltip: 'Delete',

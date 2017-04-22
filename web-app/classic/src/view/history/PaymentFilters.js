@@ -1,6 +1,8 @@
 Ext.define('Expenses.view.history.PaymentForm', {
-    extend: 'Ext.container.Container',
+    extend: 'Ext.panel.Panel',
     xtype: 'paymentfilters',
+
+    title: 'Payments filters',
 
     layout: {
         type: "vbox",
@@ -10,6 +12,9 @@ Ext.define('Expenses.view.history.PaymentForm', {
     defaults: {
         labelAlign: "left"
     },
+
+    collapsible: true,
+    collapsed: true,
 
     minWidth: 200,
     width: 400,
