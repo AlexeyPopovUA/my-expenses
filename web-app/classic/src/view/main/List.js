@@ -92,6 +92,11 @@ Ext.define('Expenses.view.main.List', {
         dock: 'top'
     }],
 
+    bbar: {
+        xtype: 'pagingtoolbar',
+        displayInfo: true
+    },
+
     listeners: {
         select: 'onItemSelected',
         edit: 'onItemEdit'

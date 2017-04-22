@@ -46,7 +46,7 @@ const emptyPaymentConfig = {
     "value": 0
 };
 
-PaymentSchema.statics.filter = function(request, done) {
+PaymentSchema.statics.filter = function(request) {
     const queryParameters = request.query;
     const match = {};
     const DEFAULT_LIMIT = 50;
@@ -60,7 +60,7 @@ PaymentSchema.statics.filter = function(request, done) {
 
     let dbQuery = this.find(match);
 
-    if (queryParameters.sort && queryParameters.sort.length > 0) {
+    if (queryParameters.sort) {
         try {
             const parsedSort = JSON.parse(queryParameters.sort);
             const sortersList = [];
@@ -77,10 +77,20 @@ PaymentSchema.statics.filter = function(request, done) {
         }
     }
 
-    dbQuery
+    const countQuery = this.count();
+    const mainQuery = dbQuery
         .limit(queryParameters.limit ? parseInt(queryParameters.limit) : DEFAULT_LIMIT)
-        .exec()
-        .then(result => done(null, result));
+        .skip(queryParameters.start ? parseInt(queryParameters.start) : 0)
+        .exec();
+
+    return Promise.all([countQuery, mainQuery])
+        .then(values => {
+            return Promise.resolve({
+                success: true,
+                items: values[1],
+                results: values[0]
+            });
+        });
 };
 
 PaymentSchema.statics.addOne = function(request, done) {

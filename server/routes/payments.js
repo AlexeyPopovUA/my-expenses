@@ -11,9 +11,15 @@ const _ = require("lodash");
 const moment = require("moment");
 
 router.get('/get', (req, res) => {
-    PaymentModel.filter(req, (err, result) => {
-        res.json(result);
-    });
+    PaymentModel
+        .filter(req)
+        .then(result => res.json(result))
+        .catch(error => {
+            res.json({
+                success: false,
+                error: error
+            });
+        });
 });
 
 router.post('/add', (req, res) => {

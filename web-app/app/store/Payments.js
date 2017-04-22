@@ -10,7 +10,9 @@ Ext.define('Expenses.store.Payments', {
     proxy: {
         type: 'ajax',
         reader: {
-            type: 'json'
+            type: 'json',
+            rootProperty: 'items',
+            totalProperty: 'results'
         },
         url: 'http://localhost:3000/payments/get'
         /*extraParams: {
