@@ -13,17 +13,17 @@ const url = config.database;
 
 module.exports = {
     start: () => {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             // Use connect method to connect to the Server
             mongoose.connect(url, err => {
                 db_connection = mongoose.connection;
 
-                db_connection.on('error', console.error.bind(console, 'connection error:'));
-                db_connection.once('open', () => {
-                    console.log("we are successfully connected.")
-                });
+                db_connection.on('error', error => reject(error));
+                db_connection.once('open', () => resolve(db_connection));
 
-                resolve(db_connection);
+                if (err) {
+                    reject(err);
+                }
             });
         });
     },

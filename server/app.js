@@ -8,7 +8,10 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
-require("./mongo").start();
+require("./mongo")
+    .start()
+    .then(() => console.log("we are successfully connected."))
+    .catch(error => console.error("connection error:", error));
 
 const routes = require('./routes/index');
 //const users = require('./routes/users');
