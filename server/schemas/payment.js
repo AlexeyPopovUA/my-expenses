@@ -123,12 +123,18 @@ PaymentSchema.statics.deleteOnePayment = function(request) {
 };
 
 PaymentSchema.statics.getGroupedReport = function() {
+    const currentTimezoneOffset = -(new Date()).getTimezoneOffset() * 60 * 1000;
     return this
         .aggregate()
         .group({
             _id: {
                 "category": "$category",
-                "date": "$date",
+                "date": {
+                    $add: [
+                        "$date",
+                        currentTimezoneOffset
+                    ]
+                },
                 "value": "$value",
                 "itemCount": {
                     "$sum": 1
