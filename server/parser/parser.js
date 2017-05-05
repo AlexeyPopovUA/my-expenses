@@ -17,7 +17,6 @@ const ebayRegExp = /.*(ebay).*/gi;
 const insuranceRegExp = /.*(Zilveren Kruis).*/gi;
 const rentRegExp = /.*(B. van den Bergh).*/gi;
 
-//todo Replace hardcoded categories with constants
 function prePopulateCategoryForPayment(payment, description) {
     if (foodRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.FOOD;
