@@ -29,7 +29,7 @@ PaymentSchema.PAYMENT_CATEGORIES = {
     TOILET: "Toilet",
     TRAVELLING: "Travelling",
     SPECIAL: "Special",
-    MOBILEANDINTERNET: "Mobile and internet",
+    MOBILEANDINTERNET: "Mobile + internet",
     ENTERTAINMENT: "Entertainment",
     ALIEXPRESS: "Ali Express",
     AMAZON: "Amazon",
