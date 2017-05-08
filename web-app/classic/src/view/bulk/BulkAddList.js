@@ -20,6 +20,7 @@ Ext.define('Expenses.view.bulk.BulkAddList', {
         {
             text: 'Name',
             dataIndex: 'name',
+            flex: 10,
             editor: {
                 allowBlank: false
             }
@@ -27,7 +28,7 @@ Ext.define('Expenses.view.bulk.BulkAddList', {
         {
             text: 'Category',
             dataIndex: 'category',
-            flex: 1,
+            flex: 1.5,
             editor: {
                 allowBlank: false
             }
@@ -36,7 +37,7 @@ Ext.define('Expenses.view.bulk.BulkAddList', {
             xtype: "datecolumn",
             text: 'Date',
             dataIndex: 'date',
-            flex: 1,
+            flex: 1.5,
             editor: {
                 xtype: 'datefield',
                 allowBlank: false

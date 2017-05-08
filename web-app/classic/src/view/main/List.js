@@ -33,7 +33,7 @@ Ext.define('Expenses.view.main.List', {
         {
             text: 'Category',
             dataIndex: 'category',
-            flex: 1,
+            flex: 1.5,
             editor: {
                 allowBlank: false
             },
