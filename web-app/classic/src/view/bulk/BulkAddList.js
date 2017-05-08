@@ -53,6 +53,18 @@ Ext.define('Expenses.view.bulk.BulkAddList', {
                 step: 0.1,
                 allowBlank: false
             }
+        },
+        {
+            xtype: 'actioncolumn',
+            width: 50,
+            sortable: false,
+            hideable: false,
+            items: [{
+                icon: 'build/development/Expenses/classic/resources/images/shared/icon-error.png',
+                tooltip: 'Delete',
+
+                handler: 'onItemRemove'
+            }]
         }
     ],
 

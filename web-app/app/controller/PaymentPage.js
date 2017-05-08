@@ -115,5 +115,21 @@ Ext.define('Expenses.controller.PaymentPage', {
                 console.log('server-side failure with status code ' + response.status);
             }
         });
+    },
+
+    onItemRemove: function(grid, rowIndex) {
+        var rec = grid.getStore().getAt(rowIndex);
+
+        Ext.Msg.show({
+            title: 'Remove',
+            message: 'Do you really want to remove ' + rec.get("name") + ' from the temporary table?',
+            buttons: Ext.Msg.YESNO,
+            icon: Ext.Msg.QUESTION,
+            fn: function(btn) {
+                if (btn === 'yes') {
+                    rec.erase();
+                }
+            }
+        });
     }
 });
