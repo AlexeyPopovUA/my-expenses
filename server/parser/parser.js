@@ -2,49 +2,49 @@ const xlsx = require("xlsx");
 const PaymentSchema = require("./../schemas/payment");
 
 //todo Come up with a better pattern
-const foodRegExp = new RegExp(/.*(ALBERT HEIJN|Monoprix|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek|Carrefour).*/, "gi");
-const householdRegExp = new RegExp(/.*(Kruidvat|HEMA|Ikea).*/, "gi");
-const closesRegExp = new RegExp(/.*(H&M|Sting).*/, "gi");
-const healthRegExp = new RegExp(/.*(Sportcity).*/, "gi");
-const toiletRegExp = new RegExp(/.*(sanifair).*/, "gi");
-const travellingRegExp = new RegExp(/.*(NS GROEP| NS-|SNCF|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling).*/, "gi");
-const specialRegExp = new RegExp(/.*(Gemeente|postnl|Post en Office|Tax Return|Publiekshal).*/, "gi");
-const mobileAndInternetRegExp = new RegExp(/.*(KPN|Vodafone).*/, "gi");
-const entertainmentRegExp = new RegExp(/.*(Spotify|museum|Keukenhof).*/, "gi");
-const aliexpressRegExp = new RegExp(/.*(Alipay).*/, "gi");
-const amazonRegExp = new RegExp(/.*(amazon).*/, "gi");
-const ebayRegExp = new RegExp(/.*(ebay).*/, "gi");
-const insuranceRegExp = new RegExp(/.*(Zilveren Kruis).*/, "gi");
-const rentRegExp = new RegExp(/.*(B\. van den Bergh).*/, "gi");
+const foodRegExp = /.*(ALBERT HEIJN|Monoprix|Carrefour|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek).*/i;
+const householdRegExp = /.*(Kruidvat|HEMA|Ikea).*/i;
+const closesRegExp = /.*(H&M|Sting).*/i;
+const healthRegExp = /.*(Sportcity).*/i;
+const toiletRegExp = /.*(sanifair).*/i;
+const travellingRegExp = /.*(NS GROEP| NS-|SNCF|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling).*/i;
+const specialRegExp = /.*(Gemeente|postnl|Post en Office|Tax Return|Publiekshal).*/i;
+const mobileAndInternetRegExp = /.*(KPN|Vodafone).*/i;
+const entertainmentRegExp = /.*(Spotify|museum|Keukenhof).*/i;
+const aliexpressRegExp = /.*(Alipay).*/i;
+const amazonRegExp = /.*(amazon).*/i;
+const ebayRegExp = /.*(ebay).*/i;
+const insuranceRegExp = /.*(Zilveren Kruis).*/i;
+const rentRegExp = /.*(B\. van den Bergh).*/i;
 
 function prePopulateCategoryForPayment(payment, description) {
-    if (description.match(foodRegExp)) {
+    if (foodRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.FOOD;
-    } else if (description.match(householdRegExp)) {
+    } else if (householdRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.HOUSEHOLD;
-    } else if (description.match(closesRegExp)) {
+    } else if (closesRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.CLOSES;
-    } else if (description.match(healthRegExp)) {
+    } else if (healthRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.HEALTH;
-    } else if (description.match(toiletRegExp)) {
+    } else if (toiletRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.TOILET;
-    } else if (description.match(travellingRegExp)) {
+    } else if (travellingRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.TRAVELLING;
-    } else if (description.match(specialRegExp)) {
+    } else if (specialRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.SPECIAL;
-    } else if (description.match(mobileAndInternetRegExp)) {
+    } else if (mobileAndInternetRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.MOBILEANDINTERNET;
-    } else if (description.match(entertainmentRegExp)) {
+    } else if (entertainmentRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.ENTERTAINMENT;
-    } else if (description.match(aliexpressRegExp)) {
+    } else if (aliexpressRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.ALIEXPRESS;
-    } else if (description.match(amazonRegExp)) {
+    } else if (amazonRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.AMAZON;
-    } else if (description.match(ebayRegExp)) {
+    } else if (ebayRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.EBAY;
-    } else if (description.match(insuranceRegExp)) {
+    } else if (insuranceRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.INSURANCE;
-    } else if (description.match(rentRegExp)) {
+    } else if (rentRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.RENT;
     } else {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.OTHER;
