@@ -51,9 +51,20 @@ PaymentSchema.statics.filter = function(request) {
     const match = {};
     const DEFAULT_LIMIT = 50;
 
-    if (typeof queryParameters.filterBy !== "undefined") {
+    if (!_.isUndefined(queryParameters.filter)) {
+        match["$and"] = [];
+        const and = match["$and"];
+        const filters = JSON.parse(queryParameters.filter);
 
-        match[queryParameters.filterBy] = queryParameters.value;
+        for (const filter of filters) {
+            if (filter.operator === "in") {
+                and.push({
+                    [filter.property]: {
+                        $in: [...filter.value]
+                    }
+                });
+            }
+        }
     } else if (typeof queryParameters._id !== "undefined") {
         match._id = ObjectId(queryParameters._id);
     }
@@ -77,13 +88,13 @@ PaymentSchema.statics.filter = function(request) {
         }
     }
 
-    const countQuery = this.count();
+    const countQuery = this.count(match);
+
     const mainQuery = dbQuery
         .limit(queryParameters.limit ? parseInt(queryParameters.limit) : DEFAULT_LIMIT)
-        .skip(queryParameters.start ? parseInt(queryParameters.start) : 0)
-        .exec();
+        .skip(queryParameters.start ? parseInt(queryParameters.start) : 0);
 
-    return Promise.all([countQuery, mainQuery])
+    return Promise.all([countQuery.exec(), mainQuery.exec()])
         .then(values => {
             return Promise.resolve({
                 success: true,

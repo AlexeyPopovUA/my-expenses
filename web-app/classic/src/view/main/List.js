@@ -14,6 +14,7 @@ Ext.define('Expenses.view.main.List', {
 
     store: Ext.create("Expenses.store.Payments", {
         remoteSort: true,
+        remoteFilter: true,
 
         sorters: [{
             property: 'date',
@@ -49,10 +50,10 @@ Ext.define('Expenses.view.main.List', {
             editor: {
                 xtype: 'datefield',
                 allowBlank: false
-            },
+            }/*,
             filter: {
                 type: 'date'
-            }
+            }*/
         },
         {
             xtype: "numbercolumn",
