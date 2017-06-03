@@ -2,12 +2,12 @@ const xlsx = require("xlsx");
 const PaymentSchema = require("./../schemas/payment");
 
 //todo Come up with a better pattern
-const foodRegExp = /.*(ALBERT HEIJN|Monoprix|Carrefour|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek).*/i;
+const foodRegExp = /.*(ALBERT HEIJN|Snack|Billa|Gern im Stern|Kaasboer|Monoprix|Carrefour|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek|Edeka|Spar|Kroon vis).*/i;
 const householdRegExp = /.*(Kruidvat|HEMA|Ikea).*/i;
-const closesRegExp = /.*(H&M|Sting).*/i;
+const closesRegExp = /.*(H&M|Hennes & Mauritz|Sting|Zeeman|Bershka|Zarra).*/i;
 const healthRegExp = /.*(Sportcity).*/i;
 const toiletRegExp = /.*(sanifair).*/i;
-const travellingRegExp = /.*(NS GROEP| NS-|SNCF|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling).*/i;
+const travellingRegExp = /.*(NS GROEP| NS-|SNCF|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling|DB Bahn).*/i;
 const specialRegExp = /.*(Gemeente|postnl|Post en Office|Tax Return|Publiekshal).*/i;
 const mobileAndInternetRegExp = /.*(KPN|Vodafone).*/i;
 const entertainmentRegExp = /.*(Spotify|museum|Keukenhof).*/i;
