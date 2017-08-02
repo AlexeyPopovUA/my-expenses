@@ -72,27 +72,21 @@ PaymentSchema.statics.filter = function(request) {
     let dbQuery = this.find(match);
 
     if (queryParameters.sort) {
-        try {
-            const parsedSort = JSON.parse(queryParameters.sort);
-            const sortersList = [];
+        const sorter = queryParameters.direction === "ASC" ? queryParameters.sort : `-${queryParameters.sort}`;
 
-            for (const sorter of parsedSort) {
-                sortersList.push(sorter.direction === "ASC" ? sorter.property : `-${sorter.property}`);
-            }
-
-            dbQuery = dbQuery
-                .sort(sortersList.join(" "));
-        } catch (error) {
-            //igore error
-            console.error(error);
+        if (queryParameters.sort) {
+            dbQuery = dbQuery.sort(sorter);
         }
     }
 
     const countQuery = this.count(match);
 
+    const page = parseInt(queryParameters.page);
+    const limit = parseInt(queryParameters.limit);
+
     const mainQuery = dbQuery
-        .limit(queryParameters.limit ? parseInt(queryParameters.limit) : DEFAULT_LIMIT)
-        .skip(queryParameters.start ? parseInt(queryParameters.start) : 0);
+        .limit(limit ? limit : DEFAULT_LIMIT)
+        .skip(page > 1 ? (page - 1) * limit : 0);
 
     return Promise.all([countQuery.exec(), mainQuery.exec()])
         .then(values => {
