@@ -95,7 +95,7 @@ PaymentSchema.statics.filter = function(request) {
 
     const mainQuery = dbQuery
         .limit(limit ? limit : DEFAULT_LIMIT)
-        .skip(page > 1 ? (page - 1) * limit : 0);
+        .skip(page * limit);
 
     return Promise.all([countQuery.exec(), mainQuery.exec()])
         .then(values => {
