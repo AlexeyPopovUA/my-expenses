@@ -72,10 +72,19 @@ PaymentSchema.statics.filter = function(request) {
     let dbQuery = this.find(match);
 
     if (queryParameters.sort) {
-        const sorter = queryParameters.direction === "ASC" ? queryParameters.sort : `-${queryParameters.sort}`;
+        try {
+            const parsedSort = JSON.parse(decodeURIComponent(queryParameters.sort));
+            const sortersList = [];
 
-        if (queryParameters.sort) {
-            dbQuery = dbQuery.sort(sorter);
+            for (const sorter of parsedSort) {
+                sortersList.push(sorter.direction === 1 ? sorter.field : `-${sorter.field}`);
+            }
+
+            dbQuery = dbQuery
+                .sort(sortersList.join(" "));
+        } catch (error) {
+            //igore error
+            console.error(error);
         }
     }
 
