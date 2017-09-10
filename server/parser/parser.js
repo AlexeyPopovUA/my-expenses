@@ -2,12 +2,12 @@ const xlsx = require("xlsx");
 const PaymentSchema = require("./../schemas/payment");
 
 //todo Come up with a better pattern
-const foodRegExp = /.*(ALBERT HEIJN|Snack|Billa|Gern im Stern|Kaasboer|Monoprix|Carrefour|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Smaczek|Edeka|Spar|Kroon vis).*/i;
-const householdRegExp = /.*(Kruidvat|HEMA|Ikea).*/i;
-const closesRegExp = /.*(H&M|Hennes & Mauritz|Sting|Zeeman|Bershka|Zarra).*/i;
+const foodRegExp = /.*(ALBERT HEIJN|Snack|Billa|Gern im Stern|Kaasboer|Monoprix|Carrefour|Cafe|Aldi|Supermark|Vomar|MABROUK|Jak|De Stadthouder|Donald|Smaczek|Edeka|Spar|Kroon vis).*/i;
+const householdRegExp = /.*(Kruidvat|HEMA|Ikea|Action).*/i;
+const clothesRegExp = /.*(H&M|Hennes & Mauritz|Sting|Zeeman|Bershka|Zarra).*/i;
 const healthRegExp = /.*(Sportcity).*/i;
 const toiletRegExp = /.*(sanifair).*/i;
-const travellingRegExp = /.*(NS GROEP| NS-|SNCF|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling|DB Bahn).*/i;
+const travellingRegExp = /.*(NS GROEP| NS-|SNCF|KLM|BOOKING|hotel|TRANSAVIA|Lufthansa|Vueling|DB Bahn|OV-CHIPKAART).*/i;
 const specialRegExp = /.*(Gemeente|postnl|Post en Office|Tax Return|Publiekshal).*/i;
 const mobileAndInternetRegExp = /.*(KPN|Vodafone).*/i;
 const entertainmentRegExp = /.*(Spotify|museum|Keukenhof).*/i;
@@ -16,14 +16,15 @@ const amazonRegExp = /.*(amazon).*/i;
 const ebayRegExp = /.*(ebay).*/i;
 const insuranceRegExp = /.*(Zilveren Kruis).*/i;
 const rentRegExp = /.*(B\. van den Bergh).*/i;
+const educationRegExp = /.*(I.PYSHCHYK).*/i;
 
 function prePopulateCategoryForPayment(payment, description) {
     if (foodRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.FOOD;
     } else if (householdRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.HOUSEHOLD;
-    } else if (closesRegExp.test(description)) {
-        payment.category = PaymentSchema.PAYMENT_CATEGORIES.CLOSES;
+    } else if (clothesRegExp.test(description)) {
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.CLOTHES;
     } else if (healthRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.HEALTH;
     } else if (toiletRegExp.test(description)) {
@@ -46,6 +47,8 @@ function prePopulateCategoryForPayment(payment, description) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.INSURANCE;
     } else if (rentRegExp.test(description)) {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.RENT;
+    } else if (educationRegExp.test(description)) {
+        payment.category = PaymentSchema.PAYMENT_CATEGORIES.EDUCATION;
     } else {
         payment.category = PaymentSchema.PAYMENT_CATEGORIES.OTHER;
     }

@@ -24,7 +24,7 @@ const PaymentSchema = Schema({
 PaymentSchema.PAYMENT_CATEGORIES = {
     FOOD: "Food",
     HOUSEHOLD: "Household",
-    CLOSES: "Closes",
+    CLOTHES: "Clothes",
     HEALTH: "Health",
     TOILET: "Toilet",
     TRAVELLING: "Travelling",
@@ -36,6 +36,7 @@ PaymentSchema.PAYMENT_CATEGORIES = {
     EBAY: "Ebay",
     INSURANCE: "Insurance",
     RENT: "Rent",
+    EDUCATION: "Education",
     OTHER: "Other"
 };
 
