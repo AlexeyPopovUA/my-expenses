@@ -1,13 +1,21 @@
 {
-    /**
-     * The application's namespace.
-     */
     "name": "Expenses",
-    
-    /**
-     * The version of the application.
-     */
+    "namespace": "Expenses",
     "version": "1.0.0.0",
+    "framework": "ext",
+
+    /**
+     * The list of required packages (with optional versions; default is "latest").
+     *
+     * For example,
+     *
+     *      "requires": [
+     *          "charts"
+     *      ]
+     */
+    "requires": [
+        "font-awesome"
+    ],
 
     /**
      * The relative path to the application's markup file (html, jsp, asp, etc.).
@@ -38,30 +46,10 @@
     ],
 
     /**
-     * The Sencha Framework for this application: "ext" or "touch".
-     */
-    "framework": "ext",
-    
-    
-    
-    
-    /**
-     * The list of required packages (with optional versions; default is "latest").
-     *
-     * For example,
-     *
-     *      "requires": [
-     *          "charts"
-     *      ]
-     */
-    "requires": [
-        "font-awesome"
-    ],
-
-    /**
      * Fashion build configuration properties.
      */
     "fashion": {
+
         "inliner": {
             /**
              * Disable resource inliner. Production builds enable this by default.
@@ -85,13 +73,20 @@
         "namespace": "Expenses",
 
         /**
-         * File used to save sass variables edited via Sencha Inspector. This file
-         * will automatically be applied to the end of the scss build.
+         * Generated sass source settings
          *
-         *      "save": "sass/save.scss"
+         *      "generated": {
+         *         // The file used to save sass variables edited via Sencha Inspector and Sencha Themer.
+         *         // This file will automatically be applied to the end of the scss build.
+         *         "var": "sass/save.scss",
+         *      
+         *         // The directory used to save generated sass sources.
+         *         // This directory will automatically be applied to the end of the scss build.
+         *         "src": "sass/save"
+         *      }
          *
          */
-         
+
         /**
          * Comma-separated list of files or folders containing extra Sass. These
          * files are automatically included in the Sass compilation. By default this
@@ -139,6 +134,7 @@
         "var": [
             "sass/var/all.scss",
             "sass/var",
+            "${toolkit.name}/sass/var/all.scss",
             "${toolkit.name}/sass/var"
         ],
 
@@ -212,7 +208,6 @@
         }
     ],
 
-    
     /**
      * Settings specific to classic toolkit builds.
      */
@@ -314,24 +309,20 @@
             "type": "yui"
         }
     },
-    
+
     /**
      * Settings specific to testing builds.
      */
     "testing": {
     },
-    
+
     /**
      * Settings specific to development builds.
      */
     "development": {
-        "tags": [
-            // You can add this tag to enable Fashion when using app watch or
-            // you can add "?platformTags=fashion:1" to the URL to enable Fashion
-            // without changing this file.
-            //
-            // "fashion"
-        ]
+        "watch": {
+            "delay": 250
+        }
     },
 
     /**
@@ -344,7 +335,7 @@
      * form:
      *
      *      "bootstrap": {
-     *          "base": "${app.dir},
+     *          "base": "${app.dir}",
      *          "manifest": "bootstrap.json",
      *          "microloader": "bootstrap.js",
      *          "css": "bootstrap.css"
@@ -363,9 +354,9 @@
      */
     "bootstrap": {
         "base": "${app.dir}",
-        
+
         "manifest": "${build.id}.json",
-        
+
         "microloader": "bootstrap.js",
         "css": "bootstrap.css"
     },
@@ -385,7 +376,12 @@
      *              "enable": false
      *          },
      *          "css": "${app.output.resources}/${app.name}-all.css",
-     *          "js": "app.js",
+     *          "js": {
+     *              "path": "app.js",
+     *              // This setting constrols the output language level.  Set to 'ES6' to 
+     *              // disable the transpiler
+     *              "version": "ES5"
+     *          },
      *          "microloader": {
      *              "path": "microloader.js",
      *              "embed": true,
@@ -410,7 +406,7 @@
      *      }
      *
      */
-    
+
     "output": {
         "base": "${workspace.build.dir}/${build.environment}/${app.name}",
         "page": "index.html",
@@ -424,8 +420,7 @@
             "shared": "resources"
         }
     },
-    
-    
+
     /**
     * Controls for localStorage caching
     *   "cache": {
@@ -441,12 +436,11 @@
     *       "deltas": "deltas"
     *   }
     */
-    
+
     "cache": {
         "enable": false,
         "deltas": "${build.id}/deltas"
     },
-    
 
     /**
      * Used to automatically generate cache.manifest (HTML 5 application cache manifest)
@@ -489,44 +483,12 @@
     ],
 
     /**
-     * File / directory name patttern to ignore when copying to the builds. Must be a
-     * valid regular expression.
-     */
-    "ignore": [
-        "(^|/)CVS(/?$|/.*?$)"
-    ],
-
-    /**
      * Directory path to store all previous production builds. Note that the content
      * generated inside this directory must be kept intact for proper generation of
      * deltas between updates.
      */
-    
+
     "archivePath": "archive/${build.id}",
-    
-
-
-    /**
-     * The space config object is used by the "sencha app publish" command to publish
-     * a version of this application to Sencha Web Application Manager:
-     *
-     *      "manager": {
-     *          // the space id for this application
-     *          "id": 12345,
-     *
-     *          // space host
-     *          "host": "https://api.space.sencha.com/json.rpc",
-     *
-     *          // Either a zip file path or a folder to be zipped
-     *          // this example shows how to publish the root folder for all build profiles
-     *          "file": "${app.output.base}/../",
-     *
-     *          // These may be specified here, but are best specified in your user
-     *          // ~/.sencha/cmd/sencha.cfg file
-     *          "apiKey": "",
-     *          "secret": ""
-     *      }
-     */
 
     /**
      * Build Profiles. This object's properties are each a "build profile". You can
@@ -548,33 +510,31 @@
      *     }
      *
      */
-    
+
     "builds": {
         "classic": {
             "toolkit": "classic",
-            
             "theme": "theme-triton",
-            
             "sass": {
-                // "save": "classic/sass/save.scss"
+                "generated": {
+                    "var": "classic/sass/save.scss",
+                    "src": "classic/sass/save"
+                }
             }
         }
-
-        /*"modern": {
-            "toolkit": "modern",
-            
-            "theme": "theme-triton",
-            
-            "sass": {
-                // "save": "modern/sass/save.scss"
-            }
-        }*/
     },
-    
+
+    /**
+     * File / directory name patttern to ignore when copying to the builds. Must be a
+     * valid regular expression.
+     */
+    "ignore": [
+        "(^|/)CVS(/?$|/.*?$)"
+    ],
 
     /**
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "43d6f6e3-2340-44e3-848a-005f7478b91a"
+    "id": "3386d0e7-32f4-478e-9ca4-5e8f23d331be"
 }

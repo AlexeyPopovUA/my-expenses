@@ -17,7 +17,7 @@ Ext.application({
     // modern toolkit, the main view will be added to the Viewport.
     //
     mainView: 'Expenses.view.main.Main'
-	
+
     //-------------------------------------------------------------------------
     // Most customizations should be made to Expenses.Application. If you need to
     // customize this file, doing so below this section reduces the likelihood
