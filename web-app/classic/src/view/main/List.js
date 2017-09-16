@@ -3,7 +3,9 @@ Ext.define('Expenses.view.main.List', {
     xtype: 'mainlist',
 
     requires: [
-        'Expenses.store.Payments'
+        'Expenses.store.Payments',
+        'Ext.toolbar.Paging',
+        'Ext.grid.filters.Filters'
     ],
 
     layout: {
@@ -84,7 +86,9 @@ Ext.define('Expenses.view.main.List', {
     selType: "rowmodel",
 
     plugins: [
-        'gridfilters',
+        {
+            ptype: "gridfilters"
+        },
         {
             ptype: "rowediting",
             clicksToEdit: 2

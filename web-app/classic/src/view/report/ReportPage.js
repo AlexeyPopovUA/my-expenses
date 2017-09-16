@@ -2,7 +2,9 @@ Ext.define('Expenses.view.report.ReportPage', {
     extend: 'Ext.container.Container',
 
     requires: [
-        "Expenses.controller.ReportPage"
+        "Expenses.controller.ReportPage",
+        "Expenses.store.Report",
+        "Ext.grid.filters.Filters"
     ],
 
     xtype: 'reportpage',

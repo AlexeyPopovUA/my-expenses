@@ -3,7 +3,8 @@ Ext.define('Expenses.view.bulk.BulkAddList', {
     xtype: 'bulkaddlist',
 
     requires: [
-        'Expenses.store.Payments'
+        'Expenses.store.Payments',
+        'Ext.grid.column.Date'
     ],
 
     title: 'Bulk Add',

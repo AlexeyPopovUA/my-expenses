@@ -2,6 +2,10 @@ Ext.define('Expenses.view.history.PaymentForm', {
     extend: 'Ext.panel.Panel',
     xtype: 'paymentfilters',
 
+    requires: [
+        'Expenses.store.PaymentCategories'
+    ],
+
     title: 'Payments filters',
 
     layout: {
