@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-ui": "node ./node_modules/http-server/bin/http-server ./web-app --cors -o",
+    "start-ui": "node ./node_modules/http-server/bin/http-server ./web-app/build/production/Expenses --cors -o",
     "start-ss": "node ./server/bin/www",
     "start-db": "mongod -dbpath ./db",
     "start": "npm run start-ss & npm run start-ui"
