@@ -1,6 +1,5 @@
 "use strict";
 
-const assert = require('assert');
 const config = require("./config/local_settings");
 const mongoose = require('mongoose');
 
@@ -13,19 +12,12 @@ const url = config.database;
 
 module.exports = {
     start: () => {
-        return new Promise((resolve, reject) => {
-            // Use connect method to connect to the Server
-            mongoose.connect(url, err => {
-                db_connection = mongoose.connection;
-
-                db_connection.on('error', error => reject(error));
-                db_connection.once('open', () => resolve(db_connection));
-
-                if (err) {
-                    reject(err);
-                }
-            });
-        });
+        return mongoose
+            .connect(url, {
+                useMongoClient: true
+            })
+            .then(() => db_connection = mongoose.connection)
+            .catch(error => console.error(error));
     },
 
     stop: () => {
