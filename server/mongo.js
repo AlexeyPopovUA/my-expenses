@@ -13,9 +13,7 @@ const url = config.database;
 module.exports = {
     start: () => {
         return mongoose
-            .connect(url, {
-                useMongoClient: true
-            })
+            .connect(url)
             .then(() => db_connection = mongoose.connection)
             .catch(error => console.error(error));
     },
